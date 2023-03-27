@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Piedra, Papel y Tijeras</title>
+  </head>
+  <body>
+    <h1>Piedra, Papel y Tijeras</h1>
+    <p>Elige tu jugada:</p>
+    <button id="rock">Piedra</button>
+    <button id="paper">Papel</button>
+    <button id="scissors">Tijeras</button>
+    <p id="result"></p>
+
+    <script>
+      // Obtener los botones y el párrafo de resultados
+      const rockButton = document.getElementById("rock");
+      const paperButton = document.getElementById("paper");
+      const scissorsButton = document.getElementById("scissors");
+      const resultParagraph = document.getElementById("result");
+
+      // Crear una función para generar la jugada de la computadora
+      function getComputerPlay() {
+        const plays = ["Piedra", "Papel", "Tijeras"];
+        const randomIndex = Math.floor(Math.random() * plays.length);
+        return plays[randomIndex];
+      }
+
+      // Crear una función para comparar las jugadas y mostrar el resultado
+      function play(userPlay) {
+        const computerPlay = getComputerPlay();
+
+        if (userPlay === computerPlay) {
+          resultParagraph.innerText = `Empate! Ambos eligieron ${userPlay}.`;
+        } else if (
+          (userPlay === "Piedra" && computerPlay === "Tijeras") ||
+          (userPlay === "Papel" && computerPlay === "Piedra") ||
+          (userPlay === "Tijeras" && computerPlay === "Papel")
+        ) {
+          resultParagraph.innerText = `¡Ganaste! Elegiste ${userPlay} y la computadora eligió ${computerPlay}.`;
+        } else {
+          resultParagraph.innerText = `¡Perdiste! Elegiste ${userPlay} y la computadora eligió ${computerPlay}.`;
+        }
+      }
+
+      // Agregar un evento de clic a cada botón para llamar a la función de juego con la jugada del usuario
+      rockButton.addEventListener("click", function () {
+        play("Piedra");
+      });
+      paperButton.addEventListener("click", function () {
+        play("Papel");
+      });
+      scissorsButton.addEventListener("click", function () {
+        play("Tijeras");
+      });
+    </script>
+  </body>
+</html>
