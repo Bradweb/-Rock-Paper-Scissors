@@ -1,57 +1,104 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Piedra, Papel y Tijeras</title>
-  </head>
-  <body>
-    <h1>Piedra, Papel y Tijeras</h1>
-    <p>Elige tu jugada:</p>
-    <button id="rock">Piedra</button>
-    <button id="paper">Papel</button>
-    <button id="scissors">Tijeras</button>
-    <p id="result"></p>
 
-    <script>
-      // Obtener los botones y el párrafo de resultados
-      const rockButton = document.getElementById("rock");
-      const paperButton = document.getElementById("paper");
-      const scissorsButton = document.getElementById("scissors");
-      const resultParagraph = document.getElementById("result");
+<head>
+  <title>Piedra, Papel y Tijeras</title>
+</head>
 
-      // Crear una función para generar la jugada de la computadora
-      function getComputerPlay() {
-        const plays = ["Piedra", "Papel", "Tijeras"];
-        const randomIndex = Math.floor(Math.random() * plays.length);
-        return plays[randomIndex];
-      }
+<body>
+  <h1>Piedra, Papel y Tijeras</h1>
+  <p>Elige tu jugada:</p>
+  <button id="rock">Piedra</button>
+  <button id="paper">Papel</button>
+  <button id="scissors">Tijeras</button>
+  <p id="result"></p>
+  <p id="victories"></p>
+  <p id="losses"></p>
 
-      // Crear una función para comparar las jugadas y mostrar el resultado
-      function play(userPlay) {
-        const computerPlay = getComputerPlay();
 
-        if (userPlay === computerPlay) {
-          resultParagraph.innerText = `Empate! Ambos eligieron ${userPlay}.`;
-        } else if (
-          (userPlay === "Piedra" && computerPlay === "Tijeras") ||
-          (userPlay === "Papel" && computerPlay === "Piedra") ||
-          (userPlay === "Tijeras" && computerPlay === "Papel")
-        ) {
-          resultParagraph.innerText = `¡Ganaste! Elegiste ${userPlay} y la computadora eligió ${computerPlay}.`;
-        } else {
-          resultParagraph.innerText = `¡Perdiste! Elegiste ${userPlay} y la computadora eligió ${computerPlay}.`;
-        }
-      }
+  <script>
+    // Obtener los botones y el párrafo de resultados
+    const rockButton = document.getElementById("rock");
+    const paperButton = document.getElementById("paper");
+    const scissorsButton = document.getElementById("scissors");
+    const resultParagraph = document.getElementById("result");
+    const userWinsParagraph = document.getElementById("victories");
+    const computerWinsParagraph = document.getElementById("losses");
 
-      // Agregar un evento de clic a cada botón para llamar a la función de juego con la jugada del usuario
-      rockButton.addEventListener("click", function () {
-        play("Piedra");
-      });
-      paperButton.addEventListener("click", function () {
-        play("Papel");
-      });
-      scissorsButton.addEventListener("click", function () {
-        play("Tijeras");
-      });
-    </script>
-  </body>
+
+
+    // Crear una función para generar la jugada de la computadora
+    function getComputerPlay() {
+      const plays = ["Piedra", "Papel", "Tijeras"];
+      const randomIndex = Math.floor(Math.random() * plays.length);
+      return plays[randomIndex];
+    }
+
+
+
+    // Crear una función para comparar las jugadas y mostrar el resultado
+    let userWins = 0;
+let computerWins = 0;
+
+function play(userPlay) {
+  const computerPlay = getComputerPlay();
+
+  if (userPlay === computerPlay) {
+    resultParagraph.innerText = `Empate! Ambos eligieron ${userPlay}.`;
+  } else if (
+    (userPlay === "Piedra" && computerPlay === "Tijeras") ||
+    (userPlay === "Papel" && computerPlay === "Piedra") ||
+    (userPlay === "Tijeras" && computerPlay === "Papel")
+  ) {
+    userWins++;
+    resultParagraph.innerText = `¡Ganaste! Elegiste ${userPlay} y la computadora eligió ${computerPlay}.`;
+  } else {
+    computerWins++;
+    resultParagraph.innerText = `¡Perdiste! Elegiste ${userPlay} y la computadora eligió ${computerPlay}.`;
+  }
+
+  // Actualizar los contadores
+  userWinsParagraph.innerText = `Victorias del usuario: ${userWins}`;
+  computerWinsParagraph.innerText = `Victorias de la computadora: ${computerWins}`;
+
+  // Verificar si se alcanzó el límite de puntos
+  if (userWins > 5) {
+    resultParagraph.innerText = `¡Felicidades! Has ganado el juego.`;
+    resetGame();
+  } else if (computerWins > 5) {
+    resultParagraph.innerText = `La computadora ha ganado el juego.`;
+    resetGame();
+  }
+}
+
+function resetGame() {
+  // Reiniciar los contadores
+  userWins = 0;
+  computerWins = 0;
+
+  // Actualizar los contadores en la pantalla
+  userWinsParagraph.innerText = `Victorias del usuario: ${userWins}`;
+  computerWinsParagraph.innerText = `Victorias de la computadora: ${computerWins}`;
+
+  // Habilitar los botones para jugar de nuevo
+  rockButton.disabled = false;
+  paperButton.disabled = false;
+  scissorsButton.disabled = false;
+}
+
+
+
+    // Agregar un evento de clic a cada botón para llamar a la función de juego con la jugada del usuario
+    rockButton.addEventListener("click", function () {
+      play("Piedra");
+    });
+    paperButton.addEventListener("click", function () {
+      play("Papel");
+    });
+    scissorsButton.addEventListener("click", function () {
+      play("Tijeras");
+    });
+  </script>
+</body>
+
 </html>
